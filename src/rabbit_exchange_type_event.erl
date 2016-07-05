@@ -57,6 +57,9 @@ init([]) -> {ok, []}.
 
 handle_call(_Request, State) -> {ok, not_understood, State}.
 
+%% internal event, filtered out. Introduced in rabbitmq/rabbitmq-server#500.
+handle_event(#event{type      = connection_reregistered}, State) ->
+  {ok, State};
 handle_event(#event{type      = Type,
                     props     = Props,
                     timestamp = TS,
